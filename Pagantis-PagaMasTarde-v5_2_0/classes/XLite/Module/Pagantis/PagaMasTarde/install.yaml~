@@ -1,0 +1,35 @@
+# vim: set ts=2 sw=2 sts=2 et:
+#
+# Fixtures
+#
+# @author    Qualiteam software Ltd <info@x-cart.com>
+# @copyright Copyright (c) 2011-2016 Qualiteam software Ltd <info@x-cart.com>. All rights reserved
+# @license   http://www.x-cart.com/license-agreement.html X-Cart 5 License Agreement
+# @link      http://www.x-cart.com/
+
+XLite\Model\Payment\Method:
+  - service_name: Paga+Tarde
+    class: Module\Pagantis\PagaMasTarde\Model\Payment\Processor\PagaMasTarde
+    type: C
+    orderby: -101000
+    countries: [AD, NL, US, AT, AU, BE, BG, CA, CG, CF, CH, CY, CZ, DE, DK, DO, IR, ES, FI, GB, FR, GR, HU, IE, IT, GI, KR, LI, MC, MD, MT, NL, NO, LU, PL, PT, RO, SE, SI, SK, SM, SY, TZ, VA]
+    translations:
+      - code: en
+        name: Paga+tarde
+    settings:
+      - name: testPublicKey
+      - name: testSecretKey
+      - name: realPublicKey
+      - name: realSecretKey
+      - name: discount
+        value: 0
+      - name: test
+        value: 1
+
+XLite\Model\LanguageLabel:
+  - { name: "Test Public Key", translations: [{ code: en, label: "Test Public Key" }] }
+  - { name: "Test Secret Key", translations: [{ code: en, label: "Test Secret Key" }] }
+  - { name: "Real Public Key", translations: [{ code: en, label: "Real Public Key" }] }
+  - { name: "Real Secret Key", translations: [{ code: en, label: "Real Secret Key" }] }
+  - { name: "Discount", translations: [{ code: en, label: "Discount" }] }
+  - { name: "Test/Live mode", translations: [{ code: en, label: "Test/Live mode" }] }
