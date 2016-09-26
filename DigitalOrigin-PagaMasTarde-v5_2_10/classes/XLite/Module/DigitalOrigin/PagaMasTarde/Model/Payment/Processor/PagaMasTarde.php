@@ -98,7 +98,16 @@ class PagaMasTarde extends \XLite\Model\Payment\Base\WebBased
             $temp['event'] .
             $temp['data']['id']
         );
-        if ($signature_check != $temp['signature']) {
+
+        $signature_check_sha512 = hash('sha512',
+            $this->secret_key .
+            $temp['account_id'] .
+            $temp['api_version'] .
+            $temp['event'] .
+            $temp['data']['id']
+        );
+
+        if ($signature_check != $temp['signature'] && $signature_check_sha512 != $temp['signature']) {
             //hack detected
             $status = $transaction::STATUS_FAILED;
             $this->setDetail('verification', 'Verification failed', 'Verification');
@@ -232,6 +241,8 @@ class PagaMasTarde extends \XLite\Model\Payment\Base\WebBased
         $nok_url = $this->getPaymentReturnURL('decline');
         $callback_url = $this->getCallbackURL(null, true); //$this->getPaymentReturnURL('accept');
 
+        $cancelled_url = $this->getPaymentReturnURL('checkout');
+
         if ($this->getSetting('discount')) {
             $this->discount = 'true';
         } else {
@@ -246,13 +257,15 @@ class PagaMasTarde extends \XLite\Model\Payment\Base\WebBased
             . $ok_url
             . $nok_url
             . $callback_url
-            . $this->discount;
+            . $this->discount
+            . $cancelled_url;
 
-        $signature = sha1($string);
+        $signature = hash('sha512', $string);
 
         $fields = array(
             'account_id'      => $this->public_key,
             'callback_url'    => $callback_url,
+            'cancelled_url'    => $cancelled_url,
             'ok_url'          => $ok_url,
             'nok_url'         => $nok_url,
             'signature'       => $signature,
@@ -260,7 +273,7 @@ class PagaMasTarde extends \XLite\Model\Payment\Base\WebBased
             'currency'        => $currency->getCode(),
             'full_name'       => $this->getProfile()->getBillingAddress()->getFirstname() ." "
                                     . $this->getProfile()->getBillingAddress()->getLastname(),
-            'phone'           => $this->getProfile()->getBillingAddress()->getPhone(),
+            'mobile_phone'           => $this->getProfile()->getBillingAddress()->getPhone(),
             'email'           => $this->getProfile()->getLogin(),
             'address[street]' => $this->getProfile()->getBillingAddress()->getStreet(),
             'address[city]'   => $this->getProfile()->getBillingAddress()->getCity(),
