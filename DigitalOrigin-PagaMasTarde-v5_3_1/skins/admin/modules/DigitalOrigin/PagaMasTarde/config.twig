@@ -1,0 +1,113 @@
+{##
+ # PagaMasTarde configuration page
+ #
+ # @author    Qualiteam software Ltd <info@x-cart.com>
+ # @copyright Copyright (c) 2011-2016 Qualiteam software Ltd <info@x-cart.com>. All rights reserved
+ # @license   http://www.x-cart.com/license-agreement.html X-Cart 5 License Agreement
+ # @link      http://www.x-cart.com/
+ #}
+
+<table cellspacing="1" cellpadding="5" class="settings-table">
+
+  <tr>
+    <td colspan="2" class="note">
+      {{ t('Paga Mas Tarde') }}
+<ul>
+  <li><a href="https://bo.pagamastarde.com" target="_blank">{{ t('Paga+Tarde Backoffice Login') }}</a></li>
+  <li><a href="http://docs.pagamastarde.com/" target="_blank">{{ t('Documentation') }}</a></li>
+</ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="setting-name">
+    <label for="settings_title">{{ t('Title') }}</label>
+    </td>
+    <td>
+    <input type="text" id="settings_title" name="settings[title]" value="{{ this.paymentMethod.getSetting('title') }}" class="validate[required,maxSize[255]]" />
+    </td>
+  </tr>
+
+  <tr>
+    <td class="setting-name">
+    <label for="settings_description">{{ t('Description') }}</label>
+    </td>
+    <td>
+    <input type="text" id="settings_description" name="settings[description]" value="{{ this.paymentMethod.getSetting('description') }}" />
+    </td>
+  </tr>
+
+  <tr>
+    <td class="setting-name">
+    <label for="settings_testPublicKey">{{ t('Test Public Key') }}</label>
+    </td>
+    <td>
+    <input type="text" id="settings_testPublicKey" name="settings[testPublicKey]" value="{{ this.paymentMethod.getSetting('testPublicKey') }}" class="validate[required,maxSize[255]]" />
+    </td>
+  </tr>
+
+  <tr>
+    <td class="setting-name">
+    <label for="settings_testSecretKey">{{ t('Test Secret Key') }}</label>
+    </td>
+    <td>
+    <input type="text" id="settings_testSecretKey" name="settings[testSecretKey]" value="{{ this.paymentMethod.getSetting('testSecretKey') }}" class="validate[required,maxSize[255]]" />
+    </td>
+  </tr>
+
+  <tr>
+    <td class="setting-name">
+    <label for="settings_realPublicKey">{{ t('Real Public Key') }}</label>
+    </td>
+    <td>
+    <input type="text" id="settings_realPublicKey" name="settings[realPublicKey]" value="{{ this.paymentMethod.getSetting('realPublicKey') }}" />
+    </td>
+  </tr>
+
+  <tr>
+    <td class="setting-name">
+    <label for="settings_realSecretKey">{{ t('Real Secret Key') }}</label>
+    </td>
+    <td>
+    <input type="text" id="settings_realSecretKey" name="settings[realSecretKey]" value="{{ this.paymentMethod.getSetting('realSecretKey') }}" />
+    </td>
+  </tr>
+
+
+  <tr>
+    <td class="setting-name">
+    <label for="settings_discount">{{ t('Discount') }}</label>
+    </td>
+    <td>
+    <select id="settings_discount" name="settings[discount]">
+      <option value="0" {% if this.isSelected(this.paymentMethod.getSetting('discount'),'0') %} selected="selected" {% endif %} >false</option>
+      <option value="1" {% if this.isSelected(this.paymentMethod.getSetting('discount'),'1') %} selected="selected" {% endif %} >true</option>
+    </select>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="setting-name">
+    <label for="settings_test">{{ t('Test/Live mode') }}</label>
+    </td>
+    <td>
+    <select id="settings_test" name="settings[test]">
+      <option value="1" {% if this.isSelected(this.paymentMethod.getSetting('test'),'1') %} selected="selected" {% endif %} >{{ t('Test mode: Test') }}</option>
+      <option value="0" {% if this.isSelected(this.paymentMethod.getSetting('test'),'0') %} selected="selected" {% endif %} >{{ t('Test mode: Live') }}</option>
+    </select>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="setting-name">
+    <label for="settings_test">{{ t('Include widget') }}</label>
+    </td>
+    <td>
+    <select id="settings_widget" name="settings[widget]">
+      <option value="1" {% if this.isSelected(this.paymentMethod.getSetting('widget'),'1') %} selected="selected" {% endif %} >{{ t('Yes') }}</option>
+      <option value="0" {% if this.isSelected(this.paymentMethod.getSetting('widget'),'0') %} selected="selected" {% endif %} >{{ t('No') }}</option>
+    </select>
+    </td>
+  </tr>
+
+</table>

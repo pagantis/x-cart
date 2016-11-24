@@ -1,0 +1,53 @@
+{##
+ # Payment method row
+ #}
+
+{% if this.method.getSetting('title') %}
+  <img style="vertical-align: middle" src="skins/customer/modules/DigitalOrigin/PagaMasTarde/logo.png" alt="Paga+Tarde">
+  <span class="payment-title" style="display: inline-block;vertical-align: bottom;">{{ this.method.getSetting('title') }}</span>
+{% else %}
+  <img style="vertical-align: middle" src="skins/customer/modules/DigitalOrigin/PagaMasTarde/logo.png" alt="Paga+Tarde">
+  <span class="payment-title" style="display: inline-block;vertical-align: bottom;">Paga+Tarde</span>
+{% endif %}
+
+{% if this.method.getSetting('description') %}
+  <div class="payment-description">{{ this.method.getSetting('description') }}</div>
+{% endif %}
+
+{% if this.method.getSetting('widget') %}
+<span style="display: none" class="pmt-total"></span>
+<div class="PmtSimulator" data-pmt-num-quota="4" data-pmt-max-ins="6" data-pmt-style="not_aplicable" data-pmt-type="3" data-pmt-discount="0" data-pmt-amount="pmt-total" data-pmt-expanded="no">
+</div>
+
+<script>
+function load_simulator(){
+
+  //the amount function depend on the template, update if necessary
+  amount = document.querySelectorAll(".total .part-integer")[0].textContent +"."+ document.querySelectorAll(".total .part-decimal")[0].textContent;
+  document.querySelectorAll(".pmt-total")[0].innerHTML = amount;
+  var s, r, t;
+  r = false;
+  s = document.createElement('script');
+  s.type = 'text/javascript';
+
+
+  s.src = 'https://cdn.pagamastarde.com/pmt-simulator/3/js/pmt-simulator.min.js';
+
+  s.onload = s.onreadystatechange = function() {
+    if (!r && (!this.readyState || this.readyState === 'complete')) {
+      r = true;
+      pmtSimulator.simulator_app.setPublicKey("<{{ this.paymentMethod.getSetting('testPublicKey') }}");
+      pmtSimulator.simulator_app.load_jquery();
+
+    }
+  };
+  document.head.appendChild(s);
+}
+
+(function(){
+  setTimeout(function(){ load_simulator(); }, 5000);
+})();
+
+</script>
+<div>&nbsp;</div>
+{% endif %}
