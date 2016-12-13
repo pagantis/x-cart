@@ -268,6 +268,32 @@ class PagaMasTarde extends \XLite\Model\Payment\Base\WebBased
 
         $signature = hash('sha512', $string);
 
+        //extra user parameters
+        $sign_up_date = '';
+        $toal_amount = 0;
+        $num_refunds = 0;
+        $amount_refunded = 0;
+        $total_orders = 0;
+        $profile = \XLite\Core\Auth::getInstance()->getProfile();
+        if (trim($profile != '')) {
+            $sign_up_date = date('Y/m/d', $profile->getAdded());
+            $cnd = new \XLite\Core\CommonCell();
+            $cnd->profile = $profile;
+            $orders = \XLite\Core\Database::getRepo('XLite\Model\Order')->search($cnd);
+            foreach ($orders as $o) {
+
+                if ($o->getPaymentStatusCode() == \XLite\Model\Order\Status\Payment::STATUS_PART_PAID ||
+                $o->getPaymentStatusCode() == \XLite\Model\Order\Status\Payment::STATUS_PAID
+                ) {
+                    $toal_amount += $o->getTotal();
+                    $total_orders++;
+                } elseif ($o->getPaymentStatusCode() == \XLite\Model\Order\Status\Payment::STATUS_REFUNDED) {
+                    $num_refunds++;
+                    $amount_refunded += $o->getTotal();
+                }
+            }
+        }
+
         $fields = array(
             'account_id'      => $this->public_key,
             'callback_url'    => $callback_url,
@@ -292,7 +318,11 @@ class PagaMasTarde extends \XLite\Model\Payment\Base\WebBased
             'discount[full]'  => $this->discount,
             'order_id'        => $trx_id,
             'description'     => $trx_id,
-            'pay_method'      => 'CC',
+            'metadata[member_since]' => $sign_up_date,
+            'metadata[num_orders]' => $total_orders,
+            'metadata[amount_orders]' => $toal_amount,
+            'metadata[num_full_refunds]' => $num_refunds,
+            'metadata[amount_refunds]' => $amount_refunded
         );
 
         $i=0;

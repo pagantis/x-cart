@@ -20,31 +20,28 @@
 </div>
 
 <script>
-function load_simulator(){
+;(function(){
+  function load_simulator(){
+    //the amount function depend on the template, update if necessary
+    amount = document.querySelectorAll(".total .part-integer")[0].textContent +"."+ document.querySelectorAll(".total .part-decimal")[0].textContent;
+    document.querySelectorAll(".pmt-total")[0].innerHTML = amount;
+    var s, r, t;
+    r = false;
+    s = document.createElement('script');
+    s.type = 'text/javascript';
 
-  //the amount function depend on the template, update if necessary
-  amount = document.querySelectorAll(".total .part-integer")[0].textContent +"."+ document.querySelectorAll(".total .part-decimal")[0].textContent;
-  document.querySelectorAll(".pmt-total")[0].innerHTML = amount;
-  var s, r, t;
-  r = false;
-  s = document.createElement('script');
-  s.type = 'text/javascript';
+    s.src = 'https://cdn.pagamastarde.com/pmt-simulator/3/js/pmt-simulator.min.js';
 
+    s.onload = s.onreadystatechange = function() {
+      if (!r && (!this.readyState || this.readyState === 'complete')) {
+        r = true;
+        pmtSimulator.simulator_app.setPublicKey("<{{ this.paymentMethod.getSetting('testPublicKey') }}");
+        pmtSimulator.simulator_app.load_jquery();
 
-  s.src = 'https://cdn.pagamastarde.com/pmt-simulator/3/js/pmt-simulator.min.js';
-
-  s.onload = s.onreadystatechange = function() {
-    if (!r && (!this.readyState || this.readyState === 'complete')) {
-      r = true;
-      pmtSimulator.simulator_app.setPublicKey("<{{ this.paymentMethod.getSetting('testPublicKey') }}");
-      pmtSimulator.simulator_app.load_jquery();
-
-    }
-  };
-  document.head.appendChild(s);
-}
-
-(function(){
+      }
+    };
+    document.head.appendChild(s);
+  }
   setTimeout(function(){ load_simulator(); }, 5000);
 })();
 

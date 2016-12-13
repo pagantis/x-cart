@@ -1,7 +1,7 @@
 pagamastarde-x-cart
 ================
 
-Módulo de pago de Paga+Tarde para X-cart (v.5)
+Módulo de pago de Paga+Tarde para X-cart (v.5.2 , v.5.3)
 
 ## Instrucciones de Instalación
 
@@ -16,9 +16,6 @@ Módulo de pago de Paga+Tarde para X-cart (v.5)
 
 Si tienes alguna duda o pregunta no tienes más que escribirnos un email a soporte@pagamastarde.com.
 
+### Troubleshooting
 
-### Release notes
-
-#### 1.0.0
-
-- Versión inicial
+Si al instalar el modulo tenéis problemas de incompatibilidad con el JavaScript, desactivar la opicón de incluir widget.
