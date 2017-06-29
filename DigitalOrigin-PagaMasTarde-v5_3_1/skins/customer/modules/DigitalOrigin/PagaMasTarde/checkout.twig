@@ -37,7 +37,7 @@
         r = true;
         pmtSimulator.simulator_app.setPublicKey("<{{ this.paymentMethod.getSetting('testPublicKey') }}");
         pmtSimulator.simulator_app.load_jquery();
-
+        pmtClient.events.send('checkout', { basketAmount: amount });
       }
     };
     document.head.appendChild(s);
