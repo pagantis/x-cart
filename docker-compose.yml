@@ -1,0 +1,30 @@
+version: "3.5"
+services:
+  xcart-dev:
+    container_name: xcart-dev
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    depends_on:
+      - db
+    volumes:
+      - ./images/:/var/www/html
+    environment:
+      - XCART_DB_HOST=db
+      - XCART_DB_USER=root
+      - XCART_DB_PASSWORD=password
+      - XCART_DB_NAME=wordpress
+      - XCART_URL=xcart.docker:8100
+      - XCART_ADMIN_EMAIL=demo@xcart.com
+      - XCART_ADMIN_USER=admin
+      - XCART_ADMIN_PASSWORD=admin
+    ports:
+      - "8090:80"
+    working_dir: /var/www/html
+    extra_hosts:
+      - "xcart-dev.docker:127.0.0.1"
+  db:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=xcart
